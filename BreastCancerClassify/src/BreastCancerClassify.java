@@ -1,7 +1,8 @@
 /**
- * Name:
- * Period: 
- * Project:
+ * Name: Isayiah Lim
+ * Period: 1
+ * Project: Breast Cancer Classifications: We will use a pool of data to develop an algorithm
+ * to classify tumors as malignant or benign, then analyze athe responses for correctness
  * Date last updated: 
  * 
  * BreastCancerClassify contains the core implementation of the 
