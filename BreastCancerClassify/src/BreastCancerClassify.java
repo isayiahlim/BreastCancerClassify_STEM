@@ -33,7 +33,7 @@ public class BreastCancerClassify {
 		double total = 0;
 		for(int i = 1; i < first.length-1; i++)
 		{
-			total += (first[i]-second[i])^2;
+			total += (first[i]-second[i])*(first[i]-second[i]);
 		}
 		return Math.sqrt(total);
 	}
@@ -71,7 +71,7 @@ public class BreastCancerClassify {
 			for(int j = 0; j < allDistances.length; j++)
 			{
 				double smallest = allDistances[i];
-				if(allDistances[j] < smallest && j != index)
+				if(allDistances[j] <= smallest && j != index)
 				{
 					index = j;
 					smallest = allDistances[j];
