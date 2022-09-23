@@ -30,7 +30,12 @@ public class BreastCancerClassify {
 	 */
 	public static double calculateDistance(int[] first, int[] second)
 	{
-		return -1;
+		double total = 0;
+		for(int i = 1; i < first.length-1; i++)
+		{
+			total += (first[i]-second[i])^2;
+		}
+		return Math.sqrt(total);
 	}
 	
 	/**
@@ -40,7 +45,11 @@ public class BreastCancerClassify {
 	 */
 	public static double[] getAllDistances(int[][] trainData, int[] testInstance)
 	{
-		double[] allDistances = null;
+		double[] allDistances = new double[trainData.length];
+		for(int i = 0; i < trainData.length; i++) 
+		{
+			allDistances[i] = calculateDistance(trainData[i], testInstance);
+		}
 		return allDistances;
 	}
 	
@@ -54,7 +63,22 @@ public class BreastCancerClassify {
 	 */
 	public static int[] findKClosestEntries(double[] allDistances)
 	{
-		int[] kClosestIndexes = null;
+		int k = 5;
+		int[] kClosestIndexes = new int[k];
+		for(int i = 0; i < k; i++)
+		{
+			int index = 0;
+			for(int j = 0; j < allDistances.length; j++)
+			{
+				double smallest = allDistances[i];
+				if(allDistances[j] < smallest && j != index)
+				{
+					index = j;
+					smallest = allDistances[j];
+				}
+			}
+			kClosestIndexes[i] = index;
+		}
 		return kClosestIndexes;
 	}
 	
@@ -70,7 +94,17 @@ public class BreastCancerClassify {
 	 */
 	public static int classify(int[][] trainData, int[] kClosestIndexes)
 	{
-		return -1;
+		int benign = 0, malignant = 0;
+		for(int i = 0; i < kClosestIndexes.length; i++)
+		{
+			if(trainData[i][10] == 2)
+				benign++;
+			if(trainData[i][10] == 4)
+				malignant++;
+		}
+		if(benign > malignant)
+			return 2;
+		return 4;
 	}
 	
 	/**
@@ -85,7 +119,11 @@ public class BreastCancerClassify {
 	 * @return: int array of classifications (BENIGN or MALIGNANT)
 	 */
 	public static int[] kNearestNeighbors(int[][] trainData, int[][] testData){
-		int[] myResults = null;
+		int[] myResults = new int[testData.length];
+		for(int i = 0; i < testData.length; i++)
+		{
+			myResults[i] = classify(trainData, testData[i]);
+		}
 		return myResults;
 	}
 
@@ -105,7 +143,14 @@ public class BreastCancerClassify {
 	 * @param: testData: The original data that contains the true classifications for the test data
 	 */
 	public static String getAccuracy(int[] myResults, int[][] testData) {
-		return null;
+		double correct = 0;
+		for(int i = 0; i < myResults.length; i++)
+		{
+			if(myResults[i] == testData[i][10])
+				correct ++;
+		}
+		String returnString = String.format("%.2f%n", correct/testData.length);
+		return returnString+"%";
 	}
 	
 	
