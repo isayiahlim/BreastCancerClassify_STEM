@@ -63,9 +63,8 @@ public class BreastCancerClassify {
 	 */
 	public static int[] findKClosestEntries(double[] allDistances)
 	{
-		int k = 5;
-		int[] kClosestIndexes = new int[k];
-		for(int i = 0; i < k; i++)
+		int[] kClosestIndexes = new int[K];
+		for(int i = 0; i < K; i++)
 		{
 			int index = 0;
 			for(int j = 0; j < allDistances.length; j++)
@@ -97,14 +96,14 @@ public class BreastCancerClassify {
 		int benign = 0, malignant = 0;
 		for(int i = 0; i < kClosestIndexes.length; i++)
 		{
-			if(trainData[i][10] == 2)
+			if(trainData[i][trainData.length-1] == BENIGN)
 				benign++;
-			if(trainData[i][10] == 4)
+			if(trainData[i][trainData.length-1] == MALIGNANT)
 				malignant++;
 		}
 		if(benign > malignant)
-			return 2;
-		return 4;
+			return BENIGN;
+		return MALIGNANT;
 	}
 	
 	/**
