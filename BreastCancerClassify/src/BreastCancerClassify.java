@@ -45,10 +45,11 @@ public class BreastCancerClassify {
 	 */
 	public static double[] getAllDistances(int[][] trainData, int[] testInstance)
 	{
-		double[] allDistances = new double[trainData.length];
-		for(int i = 0; i < trainData.length; i++) 
+		double[] allDistances = new double[trainData[0].length];
+		for(int i = 0; i < trainData[0].length; i++) 
 		{
-			allDistances[i] = calculateDistance(trainData[i], testInstance);
+			for(int j = 0; j < trainData.length; j++)
+				allDistances[j] = calculateDistance(trainData[j], testInstance);
 		}
 		return allDistances;
 	}
@@ -64,31 +65,22 @@ public class BreastCancerClassify {
 	public static int[] findKClosestEntries(double[] allDistances)
 	{
 		int[] kClosestIndexes = new int[K];
+		double[] newAllD = allDistances;
 		for(int i = 0; i < K; i++)
 		{
 			int index = 0;
 			double smallest = 1000000;
 			for(int j = 0; j < allDistances.length; j++)
 			{
-				if(i > 0)
-				{
-					if(j != kClosestIndexes[i-1] && allDistances[j] < smallest)
-					{
-						index = j;
-						smallest = allDistances[j];
-					}
-				}
-				else
-				{
-					if(allDistances[j] < smallest && j != index)
-					{
-						index = j;
-						smallest = allDistances[j];
-					}
+				if(newAllD[j] < smallest && j != index)
+				{	
+					index = j;
+					smallest = newAllD[j];
 				}
 					
 			}
 			kClosestIndexes[i] = index;
+			newAllD[i] = 1000000;
 		}
 		return kClosestIndexes;
 	}
@@ -109,7 +101,7 @@ public class BreastCancerClassify {
 		for(int i = 0; i < K; i++)
 		{
 			int closestI = kClosestIndexes[i];
-			int classification = trainData[closestI][trainData.length-1];
+			int classification = trainData[closestI][trainData[0].length-1];
 			if(classification == BENIGN)
 				benign++;
 			else if(classification == MALIGNANT)
@@ -166,11 +158,11 @@ public class BreastCancerClassify {
 		{
 			if(testData.length >= myResults.length)
 			{
-				if(myResults[i] == testData[i][testData.length-1])
+				if(myResults[i] == testData[i][testData[0].length-1])
 					correct ++;
 			}
 		}
-		String returnString = String.format("%.2f", (correct/testData.length));
+		String returnString = String.format("%.2f", (correct/testData.length)*100);
 		return returnString+"%";
 	}
 	
