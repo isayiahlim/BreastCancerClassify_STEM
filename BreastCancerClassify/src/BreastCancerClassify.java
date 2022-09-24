@@ -111,9 +111,11 @@ public class BreastCancerClassify {
 		int benign = 0, malignant = 0;
 		for(int i = 0; i < kClosestIndexes.length; i++)
 		{
-			if(trainData[kClosestIndexes[i]][trainData.length-1] == BENIGN)
+			int closestI = kClosestIndexes[i];
+			int classification = trainData[closestI][trainData.length-1];
+			if(classification == BENIGN)
 				benign++;
-			else if(trainData[kClosestIndexes[i]][trainData.length-1] == MALIGNANT)
+			else if(classification == MALIGNANT)
 				malignant++;
 		}
 		if(benign > malignant)
