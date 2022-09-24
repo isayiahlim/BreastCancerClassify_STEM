@@ -67,14 +67,29 @@ public class BreastCancerClassify {
 		for(int i = 0; i < K; i++)
 		{
 			int index = 0;
+			double smallest = allDistances[0];
 			for(int j = 0; j < allDistances.length; j++)
 			{
-				double smallest = allDistances[i];
-				if(allDistances[j] <= smallest && j != index)
+				if(i > 0)
 				{
-					index = j;
-					smallest = allDistances[j];
+					if(j != kClosestIndexes[i-1])
+					{
+						if(allDistances[j] < smallest && j != index)
+						{
+							index = j;
+							smallest = allDistances[j];
+						}
+					}
 				}
+				else
+				{
+					if(allDistances[j] < smallest && j != index)
+					{
+						index = j;
+						smallest = allDistances[j];
+					}
+				}
+					
 			}
 			kClosestIndexes[i] = index;
 		}
@@ -94,15 +109,12 @@ public class BreastCancerClassify {
 	public static int classify(int[][] trainData, int[] kClosestIndexes)
 	{
 		int benign = 0, malignant = 0;
-		for(int i = 0; i < K; i++)
+		for(int i = 0; i < kClosestIndexes.length; i++)
 		{
-			if(i < trainData.length)
-			{
-				if(trainData[i][trainData.length-1] == BENIGN)
-					benign++;
-				if(trainData[i][trainData.length-1] == MALIGNANT)
-					malignant++;
-			}
+			if(trainData[kClosestIndexes[i]][trainData.length-1] == BENIGN)
+				benign++;
+			else if(trainData[kClosestIndexes[i]][trainData.length-1] == MALIGNANT)
+				malignant++;
 		}
 		if(benign > malignant)
 			return BENIGN;
@@ -121,10 +133,15 @@ public class BreastCancerClassify {
 	 * @return: int array of classifications (BENIGN or MALIGNANT)
 	 */
 	public static int[] kNearestNeighbors(int[][] trainData, int[][] testData){
-		int[] myResults = new int[testData.length];
-		for(int i = 0; i < testData.length; i++)
+		int[] myResults = new int[K];
+		for(int i = 0; i < K; i++)
 		{
-			myResults[i] = classify(trainData, testData[i]);
+			if(testData.length >= K)
+			{
+				double[] allD = getAllDistances(trainData, testData[i]);
+				int[] closestD = findKClosestEntries(allD);
+				myResults[i] = classify(trainData, closestD);
+			}
 		}
 		return myResults;
 	}
@@ -148,8 +165,11 @@ public class BreastCancerClassify {
 		double correct = 0;
 		for(int i = 0; i < myResults.length; i++)
 		{
-			if(myResults[i] == testData[i][10])
-				correct ++;
+			if(testData.length >= myResults.length)
+			{
+				if(myResults[i] == testData[i][testData.length-1])
+					correct ++;
+			}
 		}
 		String returnString = String.format("%.2f%n", correct/testData.length);
 		return returnString+"%";
