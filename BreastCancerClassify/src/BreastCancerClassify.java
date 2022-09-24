@@ -109,7 +109,7 @@ public class BreastCancerClassify {
 	public static int classify(int[][] trainData, int[] kClosestIndexes)
 	{
 		int benign = 0, malignant = 0;
-		for(int i = 0; i < kClosestIndexes.length; i++)
+		for(int i = 0; i < K; i++)
 		{
 			int closestI = kClosestIndexes[i];
 			int classification = trainData[closestI][trainData.length-1];
