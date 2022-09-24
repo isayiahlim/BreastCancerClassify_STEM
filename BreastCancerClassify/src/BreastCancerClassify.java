@@ -67,18 +67,15 @@ public class BreastCancerClassify {
 		for(int i = 0; i < K; i++)
 		{
 			int index = 0;
-			double smallest = allDistances[0];
+			double smallest = 1000000;
 			for(int j = 0; j < allDistances.length; j++)
 			{
 				if(i > 0)
 				{
-					if(j != kClosestIndexes[i-1])
+					if(j != kClosestIndexes[i-1] && allDistances[j] < smallest)
 					{
-						if(allDistances[j] < smallest && j != index)
-						{
-							index = j;
-							smallest = allDistances[j];
-						}
+						index = j;
+						smallest = allDistances[j];
 					}
 				}
 				else
