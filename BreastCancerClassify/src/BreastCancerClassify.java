@@ -54,7 +54,7 @@ public class BreastCancerClassify {
 		{
 			//for each array in traindata, calculates the distance between that and instance
 			for(int j = 0; j < trainData.length; j++)
-				allDistances[j] = calculateDistance(trainData[j], testInstance);
+				allDistances[i] = calculateDistance(testInstance, trainData[j]);
 		}
 		return allDistances;
 	}
