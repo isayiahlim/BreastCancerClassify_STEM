@@ -31,10 +31,12 @@ public class BreastCancerClassify {
 	public static double calculateDistance(int[] first, int[] second)
 	{
 		double total = 0;
+		//distance formula: adds the square of each first-second value
 		for(int i = 1; i < first.length-1; i++)
 		{
 			total += (first[i]-second[i])*(first[i]-second[i]);
 		}
+		//returns square root
 		return Math.sqrt(total);
 	}
 	
@@ -45,9 +47,12 @@ public class BreastCancerClassify {
 	 */
 	public static double[] getAllDistances(int[][] trainData, int[] testInstance)
 	{
+		//new array storing all the calculated distances
 		double[] allDistances = new double[trainData[0].length];
+		//for each value in a trainData row
 		for(int i = 0; i < trainData[0].length; i++) 
 		{
+			//for each array in traindata, calculates the distance between that and instance
 			for(int j = 0; j < trainData.length; j++)
 				allDistances[j] = calculateDistance(trainData[j], testInstance);
 		}
@@ -64,22 +69,29 @@ public class BreastCancerClassify {
 	 */
 	public static int[] findKClosestEntries(double[] allDistances)
 	{
+		//int array with the indexes of the K closest entries
 		int[] kClosestIndexes = new int[K];
+		//array equal to parameter array, can be modified
 		double[] newAllD = allDistances;
+		//variables representing smallest value/index
+		int index = -1;
+		double smallest = 1000000;
+		
+		//fills the kClosestIndexes array
 		for(int i = 0; i < K; i++)
 		{
-			int index = 0;
-			double smallest = 1000000;
-			for(int j = 0; j < allDistances.length; j++)
+			//checks each distance - if the number is smaller, stores index and value
+			for(int j = 0; j < newAllD.length; j++)
 			{
-				if(newAllD[j] < smallest && j != index)
+				if(newAllD[j] < smallest)
 				{	
 					index = j;
 					smallest = newAllD[j];
 				}
-					
 			}
+			//stores the smallest in the array
 			kClosestIndexes[i] = index;
+			//sets that value to a high number so it doesn't get stored again
 			newAllD[i] = 1000000;
 		}
 		return kClosestIndexes;
