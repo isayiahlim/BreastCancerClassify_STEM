@@ -109,16 +109,20 @@ public class BreastCancerClassify {
 	 */
 	public static int classify(int[][] trainData, int[] kClosestIndexes)
 	{
+		//counters for total benign/malignant entries
 		int benign = 0, malignant = 0;
+		//runs through the kClosestIndexes array
 		for(int i = 0; i < K; i++)
 		{
-			int closestI = kClosestIndexes[i];
-			int classification = trainData[closestI][trainData[0].length-1];
+			//looks at the last variable in the stored index's row
+			int classification = trainData[kClosestIndexes[i]][trainData[0].length-1];
+			//counts whether benign or malignant
 			if(classification == BENIGN)
 				benign++;
 			else if(classification == MALIGNANT)
 				malignant++;
 		}
+		//returns malignant if >= benign
 		if(benign > malignant)
 			return BENIGN;
 		return MALIGNANT;
@@ -136,12 +140,13 @@ public class BreastCancerClassify {
 	 * @return: int array of classifications (BENIGN or MALIGNANT)
 	 */
 	public static int[] kNearestNeighbors(int[][] trainData, int[][] testData){
+		//int array with same length as the tested data
 		int[] myResults = new int[testData.length];
+		//for each row in testData, classifies it using KNN, then stores the results
 		for(int i = 0; i < testData.length; i++)
 		{
-			double[] allD = getAllDistances(trainData, testData[i]);
-			int[] closestD = findKClosestEntries(allD);
-			myResults[i] = classify(trainData, closestD);
+			myResults[i] = classify(trainData, 
+					findKClosestEntries(getAllDistances(trainData, testData[i])));
 		}
 		return myResults;
 	}
@@ -162,17 +167,20 @@ public class BreastCancerClassify {
 	 * @param: testData: The original data that contains the true classifications for the test data
 	 */
 	public static String getAccuracy(int[] myResults, int[][] testData) {
+		//counter for total number of correct
 		double correct = 0;
+		//compares each result to the test data
 		for(int i = 0; i < myResults.length; i++)
 		{
+			//avoid index out of bounds errors
 			if(testData.length >= myResults.length)
 			{
 				if(myResults[i] == testData[i][testData[0].length-1])
 					correct ++;
 			}
 		}
-		String returnString = String.format("%.2f", (correct/testData.length)*100);
-		return returnString+"%";
+		//puts the string in the right format
+		return String.format("%.2f", (correct/testData.length)*100) + "%";
 	}
 	
 	
