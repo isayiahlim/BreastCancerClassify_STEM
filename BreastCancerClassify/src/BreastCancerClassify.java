@@ -137,14 +137,11 @@ public class BreastCancerClassify {
 	 */
 	public static int[] kNearestNeighbors(int[][] trainData, int[][] testData){
 		int[] myResults = new int[K];
-		for(int i = 0; i < K; i++)
+		for(int i = 0; i < testData.length; i++)
 		{
-			if(testData.length >= K)
-			{
-				double[] allD = getAllDistances(trainData, testData[i]);
-				int[] closestD = findKClosestEntries(allD);
-				myResults[i] = classify(trainData, closestD);
-			}
+			double[] allD = getAllDistances(trainData, testData[i]);
+			int[] closestD = findKClosestEntries(allD);
+			myResults[i] = classify(trainData, closestD);
 		}
 		return myResults;
 	}
