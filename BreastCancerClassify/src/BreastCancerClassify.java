@@ -136,7 +136,7 @@ public class BreastCancerClassify {
 	 * @return: int array of classifications (BENIGN or MALIGNANT)
 	 */
 	public static int[] kNearestNeighbors(int[][] trainData, int[][] testData){
-		int[] myResults = new int[K];
+		int[] myResults = new int[testData.length];
 		for(int i = 0; i < testData.length; i++)
 		{
 			double[] allD = getAllDistances(trainData, testData[i]);
