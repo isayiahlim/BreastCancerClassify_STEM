@@ -48,13 +48,11 @@ public class BreastCancerClassify {
 	public static double[] getAllDistances(int[][] trainData, int[] testInstance)
 	{
 		//new array storing all the calculated distances
-		double[] allDistances = new double[trainData[0].length];
-		//for each value in a trainData row
-		for(int i = 0; i < trainData[0].length; i++) 
+		double[] allDistances = new double[trainData.length];
+		//for each trainData row, calculates distance to the test instance
+		for(int i = 0; i < trainData.length; i++) 
 		{
-			//for each array in traindata, calculates the distance between that and instance
-			for(int j = 0; j < trainData.length; j++)
-				allDistances[i] = calculateDistance(testInstance, trainData[j]);
+			allDistances[i] = calculateDistance(testInstance, trainData[i]);
 		}
 		return allDistances;
 	}
