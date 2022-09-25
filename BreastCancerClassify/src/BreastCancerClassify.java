@@ -91,8 +91,11 @@ public class BreastCancerClassify {
 			}
 			//stores the smallest in the array
 			kClosestIndexes[i] = index;
-			//sets that value to a high number so it doesn't get stored again
+			//sets the previous smallest to a high value so it doesn't get chosen again
 			newAllD[i] = 1000000;
+			//resets vars
+			index = -1;
+			smallest = 1000000;
 		}
 		return kClosestIndexes;
 	}
