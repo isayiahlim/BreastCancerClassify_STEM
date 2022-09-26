@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /**
  * Name: Isayiah Lim
  * Period: 1
@@ -73,7 +75,7 @@ public class BreastCancerClassify {
 		double[] newAllD = allDistances;
 		//variables representing smallest value/index
 		int index = -1;
-		double smallest = 1000000;
+		double smallest = Double.MAX_VALUE;
 		
 		//fills the kClosestIndexes array
 		for(int i = 0; i < K; i++)
@@ -93,7 +95,7 @@ public class BreastCancerClassify {
 			newAllD[index] = 1000000;
 			//resets vars
 			index = -1;
-			smallest = 1000000;
+			smallest = Double.MAX_VALUE;
 		}
 		return kClosestIndexes;
 	}
@@ -186,7 +188,7 @@ public class BreastCancerClassify {
 	
 	
 	//DO NOT MODIFY THE MAIN METHOD
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		int[][] trainData = InputHandler.populateData("./datasets/train_data.csv");
 		int[][] testData = InputHandler.populateData("./datasets/test_data.csv");
