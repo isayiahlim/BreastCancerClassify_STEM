@@ -43,13 +43,15 @@ public class InputHandler
         	
         	//reads the first line
         	String line = br.readLine();
-        	//
+        	//adds every line to the arraylist
             while(line != null)
             {
             	dataStrings.add(line);
             	line = br.readLine();
             }
+            //sets the new 2-d array to the length number of rows, and the according num of columns
             int[][] data = new int[dataStrings.size()][dataStrings.get(0).split(",").length];
+            //makes each string in the arraylist into an array in the 2d
             for(int i = 0; i < dataStrings.size(); i++)
             {
             	String[] read = dataStrings.get(i).split(",");

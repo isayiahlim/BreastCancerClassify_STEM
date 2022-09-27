@@ -69,10 +69,13 @@ public class BreastCancerClassify {
 	 */
 	public static int[] findKClosestEntries(double[] allDistances)
 	{
-		//int array with the indexes of the K closest entries
+		//int array with the indexes of the K closest entries, set to -1
 		int[] kClosestIndexes = new int[K];
-		//array equal to parameter array, can be modified
-		double[] newAllD = allDistances;
+		for(int i = 0; i < K; i++)
+		{
+			kClosestIndexes[i] = -1;
+		}
+		
 		//variables representing smallest value/index
 		int index = -1;
 		double smallest = Double.MAX_VALUE;
@@ -80,19 +83,18 @@ public class BreastCancerClassify {
 		//fills the kClosestIndexes array
 		for(int i = 0; i < K; i++)
 		{
-			//checks each distance - if the number is smaller, stores index and value
-			for(int j = 0; j < newAllD.length; j++)
+			//checks each distance - if the number is smaller and hasn't already been stored,
+			//stores index and value
+			for(int j = 0; j < allDistances.length; j++)
 			{
-				if(newAllD[j] < smallest)
+				if(allDistances[j] < smallest && !inArray(kClosestIndexes, j))
 				{	
 					index = j;
-					smallest = newAllD[j];
+					smallest = allDistances[j];
 				}
 			}
 			//stores the smallest in the array
 			kClosestIndexes[i] = index;
-			//sets the previous smallest to a high value so it doesn't get chosen again
-			newAllD[index] = 1000000;
 			//resets vars
 			index = -1;
 			smallest = Double.MAX_VALUE;
@@ -100,6 +102,16 @@ public class BreastCancerClassify {
 		return kClosestIndexes;
 	}
 	
+	//private method that checks if the value given is in an array
+	private static boolean inArray(int[] array, int value)
+	{
+		for(int i : array)
+		{
+			if(i == value)
+				return true;
+		}
+		return false;
+	}
 	/**
 	 * classify makes a decision as to whether an instance of testing 
 	 * data is BENIGN or MALIGNANT. The function makes this decision based
