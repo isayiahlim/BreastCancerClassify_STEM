@@ -188,7 +188,7 @@ public class BreastCancerClassify {
 	
 	
 	//DO NOT MODIFY THE MAIN METHOD
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 
 		int[][] trainData = InputHandler.populateData("./datasets/train_data.csv");
 		int[][] testData = InputHandler.populateData("./datasets/test_data.csv");
