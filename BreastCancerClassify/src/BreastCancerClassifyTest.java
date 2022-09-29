@@ -138,13 +138,22 @@ public class BreastCancerClassifyTest
 		assertEquals(4, result, 0);
 	}
 	@Test
-	//tests a short kClosestIndexes
+	//tests just one kClosestIndex
 	public void testClassify3()
 	{
 		int[][] trainData= {{3,3,2},{6,29,2},{6,456,2},{26,29,4},{6,29,2},{6,29,4}};
 		int[] kClosestIndexes = {0};
 		int result = BreastCancerClassify.classify(trainData, kClosestIndexes);
 		assertEquals(2, result, 0);
+	}
+	@Test
+	//tests an even count of indexes
+	public void testClassify4()
+	{
+		int[][] trainData= {{3,3,2},{6,29,4},{6,456,2},{26,29,4},{6,29,2},{6,29,4}};
+		int[] kClosestIndexes = {0,1};
+		int result = BreastCancerClassify.classify(trainData, kClosestIndexes);
+		assertEquals(4, result, 0);
 	}
 	
 	/*
@@ -161,19 +170,18 @@ public class BreastCancerClassifyTest
 		int[] expected = {2};
 		assertArrayEquals(expected, results);
 	}
-	
 	@Test
-	//tests a normal allDistances
-	
+	//tests standard output
 	public void testKNearestNeighbors2()
 	{
-		int[][] trainData= {{}};
-		int[][] testData= {{}};
+		int[][] trainData= {{3,3,2},{6,29,2},{6,456,2},{26,29,4},{6,29,2},{6,29,4}};
+		int[][] testData= {{3,3,2},{6,29,2},{6,456,2},{26,29,4}};
 		
 		int[] results = BreastCancerClassify.kNearestNeighbors(trainData, testData);
-		int[] expected = {2,2};
+		int[] expected = {2,2,2,2};
 		assertArrayEquals(expected, results);
 	}
+	
 	
 	/*
 	 * get Accuracy Tests
@@ -185,6 +193,16 @@ public class BreastCancerClassifyTest
 		int[] myResults= {2,2,2,2,4};
 		int[][] testData = {{4,5,63,4,2}, {4,5,63,4,2}, {4,5,63,4,2}, {4,5,63,4,2}, {4,5,63,4,4}};
 		String expected = "100.00%";
+		String result = BreastCancerClassify.getAccuracy(myResults, testData);
+		assertEquals(expected, result);
+	}
+	@Test
+	//tests a completely wrong result
+	public void testGetAccuracy2()
+	{
+		int[] myResults= {2,2,2,2,4};
+		int[][] testData = {{4,5,63,4,4}, {4,5,63,4,4}, {4,5,63,4,4}, {4,5,63,4,4}, {4,5,63,4,2}};
+		String expected = "0.00%";
 		String result = BreastCancerClassify.getAccuracy(myResults, testData);
 		assertEquals(expected, result);
 	}
