@@ -92,8 +92,7 @@ public class BreastCancerClassifyTest
 		double[] allDistances = {15, 0, 1.1, 1.1, 5, 2.4, 15};
 		int[] expected = {1,2,3,5,4};
 		int[] results = BreastCancerClassify.findKClosestEntries(allDistances);
-		for(int i = 0; i < results.length; i ++)
-			assertEquals(expected[i], results[i], 0);
+		assertArrayEquals(expected, results);
 	}
 	@Test
 	//tests allDistances with the same values & 0s
@@ -102,8 +101,7 @@ public class BreastCancerClassifyTest
 		double[] allDistances = {0, 0, 0, 0, 0};
 		int[] expected = {0,1,2,3,4};
 		int[] results = BreastCancerClassify.findKClosestEntries(allDistances);
-		for(int i = 0; i < results.length; i ++)
-			assertEquals(expected[i], results[i], 0);
+		assertArrayEquals(expected, results);
 	}
 	@Test
 	//tests allDistances with big values
@@ -112,8 +110,7 @@ public class BreastCancerClassifyTest
 		double[] allDistances = {29102384, 32421, 582490, 2857910, 204350};
 		int[] expected = {1,4,2,3,0};
 		int[] results = BreastCancerClassify.findKClosestEntries(allDistances);
-		for(int i = 0; i < results.length; i ++)
-			assertEquals(expected[i], results[i], 0);
+		assertArrayEquals(expected, results);
 	}
 	
 	/*
